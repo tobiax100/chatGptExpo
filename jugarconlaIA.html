@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Adivinanza de Números con 3 Vidas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #lives {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Adivina el Numero Que Esta Pensando La IA</h1>
+    <p>Estoy pensando en un número entre 1 y 100. Intenta adivinarlo!</p>
+
+    <input type="number" id="guess" placeholder="Introduce tu número">
+    <button onclick="checkGuess()">Adivinar</button>
+
+    <p id="message"></p>
+    <p id="lives">Vidas restantes: 3</p>
+
+    <script>
+        // Generar un número aleatorio entre 1 y 100
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        // Inicializar el número de vidas
+        let lives = 3;
+
+        function checkGuess() {
+            // Obtener el valor introducido por el usuario
+            const userGuess = parseInt(document.getElementById("guess").value);
+
+            // Verificar si el número es correcto, mayor o menor
+            let message = "";
+            if (userGuess === randomNumber) {
+                message = `¡Felicidades! Lo Adivinaste! Estaba pensando en ${randomNumber}. ¡Ganaste!`;
+                resetGame();
+            } else {
+                lives--;  // Restar una vida
+                if (lives > 0) {
+                    if (userGuess > randomNumber) {
+                        message = "No estoy pensando en ese Numero, El número es más pequeño. Inténtalo de nuevo.";
+                    } else if (userGuess < randomNumber) {
+                        message = "No estoy pensando en ese Numero,El número es más grande. Inténtalo de nuevo.";
+                    }
+                } else {
+                    message = `Lo siento, te quedaste sin vidas. El número era ${randomNumber}.`;
+                    resetGame();
+                }
+            }
+
+            // Actualizar el mensaje y las vidas restantes
+            document.getElementById("message").textContent = message;
+            document.getElementById("lives").textContent = `Vidas restantes: ${lives}`;
+        }
+
+        // Reiniciar el juego generando un nuevo número y restableciendo las vidas
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            lives = 3;
+            document.getElementById("lives").textContent = `Vidas restantes: ${lives}`;
+        }
+    </script>
+
+</body>
+</html>
+
